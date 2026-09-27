@@ -1,0 +1,175 @@
+name: 🎭 Build Speaker Identifier APK
+
+on:
+  # Compila ad ogni push sul branch main
+  push:
+    branches: [ "main", "master" ]
+  # Compila ad ogni Pull Request
+  pull_request:
+    branches: [ "main", "master" ]
+  # Permette avvio manuale dalla tab Actions
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build APK
+    runs-on: ubuntu-latest
+
+    steps:
+
+      # ─────────────────────────────────────────
+      # STEP 1: Scarica il codice dal repository
+      # ─────────────────────────────────────────
+      - name: 📥 Checkout codice
+        uses: actions/checkout@v4
+
+      # ─────────────────────────────────────────
+      # STEP 2: Configura JDK 17
+      # ─────────────────────────────────────────
+      - name: ☕ Setup JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: gradle
+
+      # ─────────────────────────────────────────
+      # STEP 3: Configura Android SDK
+      # ─────────────────────────────────────────
+      - name: 🤖 Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      # ─────────────────────────────────────────
+      # STEP 4: Dai permessi a Gradle
+      # ─────────────────────────────────────────
+      - name: 🔑 Permessi Gradle
+        run: chmod +x gradlew
+
+      # ─────────────────────────────────────────
+      # STEP 5: Cache Gradle (velocizza build successive)
+      # ─────────────────────────────────────────
+      - name: 📦 Cache Gradle
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      # ─────────────────────────────────────────
+      # STEP 6: Compila APK Debug
+      # ─────────────────────────────────────────
+      - name: 🔨 Build APK Debug
+        run: ./gradlew assembleDebug --stacktrace
+        env:
+          GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.parallel=true -Dorg.gradle.jvmargs=-Xmx4g"
+
+      # ─────────────────────────────────────────
+      # STEP 7: Rinomina APK con versione e data
+      # ─────────────────────────────────────────
+      - name: 📝 Rinomina APK
+        run: |
+          DATE=$(date +'%Y%m%d_%H%M')
+          mkdir -p artifacts
+          cp app/build/outputs/apk/debug/app-debug.apk \
+             artifacts/SpeakerIdentifier_v1.0_${DATE}.apk
+          echo "APK_NAME=SpeakerIdentifier_v1.0_${DATE}.apk" >> $GITHUB_ENV
+          echo "✅ APK rinominato: SpeakerIdentifier_v1.0_${DATE}.apk"
+
+      # ─────────────────────────────────────────
+      # STEP 8: Carica APK come artifact scaricabile
+      # ─────────────────────────────────────────
+      - name: 📤 Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: SpeakerIdentifier-APK
+          path: artifacts/*.apk
+          retention-days: 30    # Disponibile per 30 giorni
+
+      # ─────────────────────────────────────────
+      # STEP 9: Mostra info APK nel log
+      # ─────────────────────────────────────────
+      - name: 📊 Info APK
+        run: |
+          echo "================================"
+          echo "✅ BUILD COMPLETATA!"
+          echo "================================"
+          echo "📱 APK: ${{ env.APK_NAME }}"
+          echo "📦 Dimensione:"
+          ls -lh artifacts/*.apk
+          echo "================================"
+          echo "⬇️  Scarica dalla tab Actions:"
+          echo "   GitHub → Actions → ultimo run"
+          echo "   → Artifacts → SpeakerIdentifier-APK"
+          echo "================================"
+
+  # ─────────────────────────────────────────
+  # JOB OPZIONALE: Build Release (firmata)
+  # Attivato solo con tag versione (es. v1.0.0)
+  # ─────────────────────────────────────────
+  build-release:
+    name: Build APK Release
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
+
+    steps:
+      - name: 📥 Checkout codice
+        uses: actions/checkout@v4
+
+      - name: ☕ Setup JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: gradle
+
+      - name: 🤖 Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: 🔑 Permessi Gradle
+        run: chmod +x gradlew
+
+      - name: 📦 Cache Gradle
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+
+      - name: 🏗️ Build APK Release
+        run: ./gradlew assembleRelease --stacktrace
+        env:
+          GRADLE_OPTS: "-Dorg.gradle.daemon=false -Xmx4g"
+
+      - name: 📤 Upload Release APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: SpeakerIdentifier-Release-APK
+          path: app/build/outputs/apk/release/*.apk
+          retention-days: 90
+
+      # Crea Release GitHub automatica con APK allegato
+      - name: 🚀 Crea GitHub Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: app/build/outputs/apk/release/*.apk
+          name: "Speaker Identifier ${{ github.ref_name }}"
+          body: |
+            ## 🎭 Speaker Identifier ${{ github.ref_name }}
+
+            ### Installazione
+            1. Scarica l'APK qui sotto
+            2. Sul telefono: Impostazioni → Sicurezza → Sorgenti sconosciute → ON
+            3. Apri l'APK scaricato e installa
+
+            ### Requisiti
+            - Android 8.0+
+            - 3GB RAM libera
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

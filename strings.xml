@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Speaker Identifier</string>
+    <string name="app_subtitle">Riconoscimento interlocutori per SRT</string>
+
+    <!-- Bottoni -->
+    <string name="btn_select_video">📹 Seleziona Video</string>
+    <string name="btn_select_srt">📄 Seleziona SRT</string>
+    <string name="btn_start">🚀 Avvia Diarizzazione</string>
+    <string name="btn_export">💾 Esporta SRT</string>
+    <string name="btn_share">📤 Condividi</string>
+    <string name="btn_stop">⏹ Ferma</string>
+
+    <!-- Labels -->
+    <string name="label_video">Video originale:</string>
+    <string name="label_srt">File SRT italiano:</string>
+    <string name="label_speakers">Numero speaker:</string>
+    <string name="label_auto">Auto (0)</string>
+    <string name="label_status">Stato:</string>
+    <string name="label_progress">Progresso:</string>
+    <string name="label_result">Risultato:</string>
+    <string name="label_model">Modello diarizzazione:</string>
+
+    <!-- Status messages -->
+    <string name="status_idle">In attesa...</string>
+    <string name="status_extracting">Estrazione audio...</string>
+    <string name="status_loading_model">Caricamento modello...</string>
+    <string name="status_diarizing">Analisi speaker in corso...</string>
+    <string name="status_enriching">Arricchimento SRT...</string>
+    <string name="status_done">✅ Completato!</string>
+    <string name="status_error">❌ Errore</string>
+
+    <!-- Errors -->
+    <string name="err_no_video">Seleziona un video prima</string>
+    <string name="err_no_srt">Seleziona un file SRT prima</string>
+    <string name="err_model_load">Errore caricamento modello</string>
+    <string name="err_processing">Errore durante l\'elaborazione</string>
+
+    <!-- Info -->
+    <string name="info_model_download">Prima esecuzione: download modello (~50MB). Attendi...</string>
+    <string name="info_processing_time">Tempo stimato: ~1 min per ogni 5 min di video</string>
+    <string name="info_speakers_found">Speaker identificati: %d</string>
+
+    <!-- Dialogs -->
+    <string name="dialog_export_title">Esporta SRT</string>
+    <string name="dialog_export_msg">Il file SRT con speaker tags è pronto.\nCondividilo con il PC per il TTS.</string>
+    <string name="dialog_ok">OK</string>
+    <string name="dialog_cancel">Annulla</string>
+</resources>

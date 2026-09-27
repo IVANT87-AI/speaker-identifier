@@ -1,0 +1,32 @@
+# Build outputs
+/build
+/app/build
+*.apk
+*.aab
+*.ap_
+
+# Gradle
+.gradle/
+gradle-app.setting
+!gradle-wrapper.jar
+!gradle-wrapper.properties
+
+# Android Studio
+*.iml
+.idea/
+.DS_Store
+local.properties
+captures/
+.externalNativeBuild/
+.cxx/
+
+# Keystore (NON caricare mai su GitHub!)
+*.jks
+*.keystore
+keystore.properties
+
+# Logs
+*.log
+
+# Test results
+/test-results/

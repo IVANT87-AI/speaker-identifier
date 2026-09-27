@@ -1,0 +1,423 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#121212"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- HEADER -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#1E1E2E"
+            android:padding="20dp"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="🎭 Speaker Identifier"
+                android:textColor="#CBA6F7"
+                android:textSize="24sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Riconoscimento interlocutori per SRT"
+                android:textColor="#A6ADC8"
+                android:textSize="13sp"
+                android:layout_marginTop="4dp"/>
+        </LinearLayout>
+
+        <!-- CARD: INPUT FILE -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#1E1E2E"
+            android:padding="16dp"
+            android:layout_marginBottom="12dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="📁 FILE DI INPUT"
+                android:textColor="#89B4FA"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="12dp"/>
+
+            <!-- Video selector -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Video originale (inglese):"
+                android:textColor="#CDD6F4"
+                android:textSize="14sp"
+                android:layout_marginBottom="6dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvVideoPath"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Nessun file selezionato"
+                    android:textColor="#6C7086"
+                    android:textSize="12sp"
+                    android:background="#313244"
+                    android:padding="10dp"
+                    android:ellipsize="start"
+                    android:singleLine="true"/>
+
+                <Button
+                    android:id="@+id/btnSelectVideo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sfoglia"
+                    android:backgroundTint="#89B4FA"
+                    android:textColor="#1E1E2E"
+                    android:layout_marginStart="8dp"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#313244"
+                android:layout_marginVertical="12dp"/>
+
+            <!-- SRT selector -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="File SRT italiano (da Auto Subtitle Generator):"
+                android:textColor="#CDD6F4"
+                android:textSize="14sp"
+                android:layout_marginBottom="6dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvSrtPath"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Nessun file selezionato"
+                    android:textColor="#6C7086"
+                    android:textSize="12sp"
+                    android:background="#313244"
+                    android:padding="10dp"
+                    android:ellipsize="start"
+                    android:singleLine="true"/>
+
+                <Button
+                    android:id="@+id/btnSelectSrt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sfoglia"
+                    android:backgroundTint="#89B4FA"
+                    android:textColor="#1E1E2E"
+                    android:layout_marginStart="8dp"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- CARD: IMPOSTAZIONI -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#1E1E2E"
+            android:padding="16dp"
+            android:layout_marginBottom="12dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="⚙️ IMPOSTAZIONI"
+                android:textColor="#89B4FA"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="12dp"/>
+
+            <!-- Numero speaker -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Numero speaker (0 = auto-detect):"
+                android:textColor="#CDD6F4"
+                android:textSize="14sp"
+                android:layout_marginBottom="6dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <Button
+                    android:id="@+id/btnSpeakerMinus"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:text="−"
+                    android:backgroundTint="#313244"
+                    android:textColor="#CDD6F4"
+                    android:textSize="18sp"
+                    android:padding="0dp"/>
+
+                <TextView
+                    android:id="@+id/tvSpeakerCount"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textColor="#CBA6F7"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:layout_marginHorizontal="8dp"/>
+
+                <Button
+                    android:id="@+id/btnSpeakerPlus"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:text="+"
+                    android:backgroundTint="#313244"
+                    android:textColor="#CDD6F4"
+                    android:textSize="18sp"
+                    android:padding="0dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="  (0 = rilevamento automatico)"
+                    android:textColor="#6C7086"
+                    android:textSize="12sp"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#313244"
+                android:layout_marginVertical="12dp"/>
+
+            <!-- Modello -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Modello diarizzazione:"
+                android:textColor="#CDD6F4"
+                android:textSize="14sp"
+                android:layout_marginBottom="6dp"/>
+
+            <RadioGroup
+                android:id="@+id/rgModel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RadioButton
+                    android:id="@+id/rbModelFast"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="⚡ Veloce (wespeaker-voxceleb) - ~30MB"
+                    android:textColor="#CDD6F4"
+                    android:buttonTint="#CBA6F7"
+                    android:checked="true"/>
+
+                <RadioButton
+                    android:id="@+id/rbModelAccurate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="🎯 Preciso (3D-Speaker) - ~80MB"
+                    android:textColor="#CDD6F4"
+                    android:buttonTint="#CBA6F7"/>
+            </RadioGroup>
+        </LinearLayout>
+
+        <!-- CARD: AVVIO -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#1E1E2E"
+            android:padding="16dp"
+            android:layout_marginBottom="12dp">
+
+            <Button
+                android:id="@+id/btnStart"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:text="🚀 AVVIA DIARIZZAZIONE"
+                android:backgroundTint="#A6E3A1"
+                android:textColor="#1E1E2E"
+                android:textSize="16sp"
+                android:textStyle="bold"/>
+
+            <Button
+                android:id="@+id/btnStop"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="⏹ FERMA"
+                android:backgroundTint="#F38BA8"
+                android:textColor="#1E1E2E"
+                android:layout_marginTop="8dp"
+                android:visibility="gone"/>
+        </LinearLayout>
+
+        <!-- CARD: PROGRESSO -->
+        <LinearLayout
+            android:id="@+id/cardProgress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#1E1E2E"
+            android:padding="16dp"
+            android:layout_marginBottom="12dp"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="📊 PROGRESSO"
+                android:textColor="#89B4FA"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="12dp"/>
+
+            <TextView
+                android:id="@+id/tvStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="In attesa..."
+                android:textColor="#CDD6F4"
+                android:textSize="14sp"
+                android:layout_marginBottom="8dp"/>
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="8dp"
+                android:progressTint="#CBA6F7"
+                android:progressBackgroundTint="#313244"
+                android:max="100"
+                android:progress="0"/>
+
+            <TextView
+                android:id="@+id/tvProgressPercent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0%"
+                android:textColor="#6C7086"
+                android:textSize="12sp"
+                android:layout_marginTop="4dp"/>
+
+            <!-- Log output -->
+            <TextView
+                android:id="@+id/tvLog"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="#A6ADC8"
+                android:textSize="11sp"
+                android:fontFamily="monospace"
+                android:background="#181825"
+                android:padding="10dp"
+                android:layout_marginTop="8dp"
+                android:minLines="3"/>
+        </LinearLayout>
+
+        <!-- CARD: RISULTATO -->
+        <LinearLayout
+            android:id="@+id/cardResult"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#1E1E2E"
+            android:padding="16dp"
+            android:layout_marginBottom="12dp"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="✅ RISULTATO"
+                android:textColor="#A6E3A1"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="12dp"/>
+
+            <TextView
+                android:id="@+id/tvResult"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="#CDD6F4"
+                android:textSize="13sp"
+                android:layout_marginBottom="12dp"/>
+
+            <!-- Preview SRT -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Anteprima SRT:"
+                android:textColor="#89B4FA"
+                android:textSize="12sp"
+                android:layout_marginBottom="6dp"/>
+
+            <TextView
+                android:id="@+id/tvSrtPreview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="#A6ADC8"
+                android:textSize="11sp"
+                android:fontFamily="monospace"
+                android:background="#181825"
+                android:padding="10dp"
+                android:layout_marginBottom="12dp"/>
+
+            <!-- Bottoni export -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnExport"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="💾 Salva SRT"
+                    android:backgroundTint="#89B4FA"
+                    android:textColor="#1E1E2E"
+                    android:layout_marginEnd="8dp"/>
+
+                <Button
+                    android:id="@+id/btnShare"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="📤 Condividi"
+                    android:backgroundTint="#CBA6F7"
+                    android:textColor="#1E1E2E"/>
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>
